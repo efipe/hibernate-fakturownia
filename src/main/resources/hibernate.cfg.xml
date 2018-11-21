@@ -13,6 +13,7 @@
         <property name="show_sql">true</property>
 
         <mapping class="com.sda.gda17.Invoice"/>
+        <mapping class="com.sda.gda17.Company"/>
 
     </session-factory>
 </hibernate-configuration>

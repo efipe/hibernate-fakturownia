@@ -30,7 +30,7 @@ public class Main {
                     System.out.println("Podaj NIP Platnika");
                     long payerNIP = scanner.nextLong();
                     String name = "INV" + payDate;
-                    Invoice invoice = new Invoice(null, payDate, dateofIssue, paymentDate, amount, issuerNIP, payerNIP);
+                    Invoice invoice = new Invoice(null, payDate, dateofIssue, paymentDate, amount, issuerNIP, payerNIP,null);
                     invoiceDAO.saveInvoicesIntoDatabase(invoice);
                     break;
                 case "list":
