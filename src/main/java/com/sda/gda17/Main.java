@@ -16,11 +16,18 @@ public class Main {
 
         while (condition) {
             System.out.println("Witaj w fakturowni! wybierz opcje " +
-                    "\r\n  'save' aby utworzyc nowa fakture " +
-                    "\r\n 'list' aby wyswietlic wszystkie faktury " +
+                    "\r\n 'save' aby utworzyc nowa fakture " +
                     "\r\n 'save_p' aby dodac platnika" +
+                    "\r\n 'save_c' aby dodać firmę" +
+                    "\r\n 'removeI' aby usunąć Fakturę" +
+                    "\r\n 'removeC' aby usunąć Firmę" +
+                    "\r\n 'removeP' aby usunąć Płatnika" +
+
                     "\r\n 'merge_pc' aby połączyć Firmę z platnikiem" +
-//                    "\r\n\ '"+
+
+                    "\r\n 'listFV' aby wyswietlic wszystkie faktury " +
+                    "\r\n 'listP'  aby wyswietlic wszystkich platników " +
+
                     "\r\n 'exit' aby zakonczyc dzialanie programu");
             pick = scanner.next();
             switch (pick) {
@@ -52,8 +59,36 @@ public class Main {
                     Invoice invoice = new Invoice(null, payDate, dateofIssue, paymentDate, amount, issuerNIP, payerNIP, null);
                     invoiceDAO.saveSingleIntoDatabase(invoice);
                     break;
+                case "save_c":
+                    System.out.println("Podaj NIP platnika");
+                    String nipC = scanner.next();
+                    System.out.println("Podaj nazwę firmy");
+                    String nameC = scanner.next();
+                    System.out.println("Podaj adres firmy");
+                    String address = scanner.next();
+                    Company company = new Company(null, nipC, nameC, address, null, null);
+                    invoiceDAO.saveSingleIntoDatabase(company);
+                    break;
+                case "removeI":
+                    System.out.println("Podaj ID faktury do usuniecia");
+                    long invID = scanner.nextLong();
+                    invoiceDAO.remove(invID,Invoice.class);
+                    break;
+                case "removeC":
+                    System.out.println("Podaj ID firmy do usunięcia");
+                    long cID = scanner.nextLong();
+                    invoiceDAO.remove(cID, Company.class);
+                    break;
+                case "removeP":
+                    System.out.println("Podaj ID Płatnika do usunięcia");
+                    long pID = scanner.nextLong();
+                    invoiceDAO.remove(pID,Payer.class);
+                    break;
                 case "list":
                     invoiceDAO.getAllInvoicesFromDatabase();
+                    break;
+                case "listP":
+                    invoiceDAO.getAllPayersFromDatabase();
                     break;
                 case "exit":
                     condition = false;

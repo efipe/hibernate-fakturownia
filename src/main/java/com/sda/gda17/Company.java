@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Company {
+public class Company extends SingleSaver {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -25,7 +25,7 @@ public class Company {
     @OneToMany(mappedBy = "company",fetch = FetchType.EAGER)
     private List<Invoice> invoiceList;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Payer> payersList;
 
 }

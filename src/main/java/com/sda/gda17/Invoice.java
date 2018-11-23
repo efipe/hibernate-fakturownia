@@ -8,7 +8,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Date;
-
+@ToString(exclude = {"company"})
 @Entity
 @Data
 @AllArgsConstructor
@@ -30,5 +30,6 @@ public class Invoice extends SingleSaver {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Company company;
+
 
 }
