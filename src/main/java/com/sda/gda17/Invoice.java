@@ -15,7 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 
 
-public class Invoice {
+public class Invoice extends SingleSaver {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

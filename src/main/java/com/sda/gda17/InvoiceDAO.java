@@ -7,14 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InvoiceDAO {
-    public boolean saveInvoicesIntoDatabase(Invoice inv) {
+    public boolean saveSingleIntoDatabase(SingleSaver sv) {
 
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             // otwieramy
             transaction = session.beginTransaction();
-            session.save(inv);
+            session.save(sv);
             transaction.commit();
 
         } catch (SessionException se) {
@@ -50,4 +50,43 @@ public class InvoiceDAO {
         // zwracam pusta liste jezeli niczego nie uda sie znalezc
         return new ArrayList<>();
     }
+
+    public boolean mergeCompaniesWithPayers(long payerID, Long companyID) {
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            //stworz zapytanie
+
+            Query<Payer> queryT = session.createQuery("from Payer where id = :zmienna", Payer.class);
+            queryT.setParameter("zmienna", payerID);
+
+            Query<Company> queryS = session.createQuery("from Company where id = :zmienna", Company.class);
+            queryS.setParameter("zmienna", companyID);
+
+            Payer payer = queryT.getSingleResult();
+            Company company = queryS.getSingleResult();
+
+
+            payer.getCompanyList().add(company);
+            company.getPayersList().add(payer);
+
+            session.save(payer);
+            session.save(company);
+
+            transaction.commit();
+
+            return true;
+
+        } catch (SessionException se) {
+
+            if (transaction != null) {
+                transaction.rollback();
+
+            }
+            return false;
+        }
+    }
+
 }
+

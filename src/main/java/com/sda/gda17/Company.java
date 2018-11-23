@@ -25,5 +25,7 @@ public class Company {
     @OneToMany(mappedBy = "company",fetch = FetchType.EAGER)
     private List<Invoice> invoiceList;
 
+    @ManyToMany
+    private List<Payer> payersList;
 
 }
